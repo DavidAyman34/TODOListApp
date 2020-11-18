@@ -9,12 +9,14 @@
 import UIKit
 
 class SignUpVC: UIViewController {
-    
+    // MARK:- OutLet methods
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passTextField: UITextField!
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var ageTextField: UITextField!
+    
+    var presenter: SignUpPresenter!
     
     // MARK:- Lifecycle methods
     override func viewDidLoad() {
@@ -23,7 +25,19 @@ class SignUpVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    func check() -> Bool {
+    // MARK:- Methods
+    func showLoader(){
+         self.view.showLoader()
+    }
+    
+    func hideLoader(){
+        self.view.hideLoader()
+    }
+    func presentError(massage: String){
+        AlertManager.alert(title: "Error", massage: massage, present: self, titleBtn: "OK")
+    }
+
+     func check() -> Bool {
         guard  let userName = userNameTextField.text,
             !userName.isEmpty,
             let email = emailTextField.text,!email.isEmpty,
@@ -34,7 +48,7 @@ class SignUpVC: UIViewController {
     }
     
     
-    func Empty() {
+     func Empty() {
         switch  check() {
         case !userNameTextField.text!.isEmpty:
             AlertManager.alert(title: "Name", massage: "Please write your name", present: self, titleBtn: "Ok")
@@ -53,50 +67,17 @@ class SignUpVC: UIViewController {
         }
     }
     
-    func go(){
+     func go(){
         let todoListVC = TodoListVC.create()
         let navigationController = UINavigationController(rootViewController: todoListVC)
         AppDelegate.shared().window?.rootViewController = navigationController
     }
+
+   
     
-    func saveUser(){
-        APIManager.signUp(name: userNameTextField.text!,
-                          email: emailTextField.text!,
-                          password: passTextField.text!,
-                          age: Int(ageTextField.text!)!){ (err, signUpData) in
-                            if let err = err {
-                                print(err.localizedDescription)
-                            }
-                            else if let data = signUpData {
-                                print(data.user.age )
-                            }
-        }
-    }
-    
-    func signUpPress(){
-        if check() == true{
-            if valid.isValidEmail(email: emailTextField.text!){
-                if valid.isValidPassword(testStr: passTextField.text!){
-                    
-                    saveUser()
-                    go()
-                    
-                }else {
-                    AlertManager.alert(title: "Password",
-                                       massage: "at least one uppercaseat least one digit , at least one lowercase ,8 characters total.",
-                                       present: self, titleBtn: "Ok")
-                }
-            }else{
-                AlertManager.alert(title: "Email",
-                                   massage: "There’s some text before the @, There’s some text after the @, a There’s at least 2 alpha characters after a .",
-                                   present: self, titleBtn: "Ok")
-            }
-        } else {
-            Empty()
-        }
-    }
+  // MARK:- Button methods
     @IBAction func signUpBtn(_ sender: Any) {
-        signUpPress()
+        presenter.tryToSaveUser(name: userNameTextField.text!, email: emailTextField.text!, password: passTextField.text!, age: ageTextField.text!)
         
     }
     @IBAction func signInBtn(_ sender: Any) {
@@ -108,6 +89,7 @@ class SignUpVC: UIViewController {
     class func create() -> SignUpVC {
         let signUpVC: SignUpVC = UIViewController.create(storyboardName: Storyboards.authentication,
                                                          identifier: ViewControllers.signUpVC)
+        signUpVC.presenter = SignUpPresenter(view: signUpVC)
         return signUpVC
     }
 }

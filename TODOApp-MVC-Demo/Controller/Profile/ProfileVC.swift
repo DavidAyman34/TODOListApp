@@ -9,7 +9,7 @@
 import UIKit
 
 class ProfileVC: UITableViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
-    
+    // MARK:- OutLet methods
     @IBOutlet weak var ageLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var namelabl: UILabel!
@@ -21,67 +21,37 @@ class ProfileVC: UITableViewController,UIImagePickerControllerDelegate,UINavigat
     let imagePicker = UIImagePickerController()
     var name: UITextField?
     var age: UITextField?
-    
-    
+    var presenter: ProfilePresenter!
+    // MARK:- Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-      
-        getUserData()
+        
+        presenter.getUserData()
         updateUI()
-       
+        
         // Do any additional setup after loading the view.
     }
-    func navSetup(){
+    // MARK:- PrivateFunction methods
+    private func navSetup(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "AddPhotos", style: .done, target: self, action: #selector(addPhoto))
         
         navigationItem.title = "Profile"
     }
-    func selectPhoto() {
+    private func selectPhoto() {
         imagePicker.sourceType = .photoLibrary
         self.imagePicker.allowsEditing = false
         self.present(self.imagePicker, animated: true, completion: nil)
     }
-    func getUserProfile(id:String){
-        APIManager.getPhoto(id: id) { (error, photo) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let photo = photo {
-                self.userProfile.image = photo
-                print("done")
-                
-                
-                
-                //self.tableView.reloadData()
-                
-            }
-        }
-        
-    }
-    func getUserData(){
-        self.view.showLoader()
-        APIManager.getUser { (error, user) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let user = user {
-                self.userD = user
-                self.getUserProfile(id: self.userD?.id ?? "")
-                print(self.userD)
-                let firstCharcters = self.getCharacters(name: self.userD!.name)
-                if self.userProfile == nil{
-                    
-                    self.imageLabel.isHidden = false
-                    self.imageLabel.text = firstCharcters
-                }
-                self.emailLabel.text = self.userD?.email
-                guard ((self.namelabl?.text = user.name) != nil)   else  {return}
-                
-                guard ((self.ageLabel?.text = String(user.age)) != nil)   else  {return}
-                self.view.hideLoader()
-                self.tableView.reloadData()
-                
-            }
-        }
-    }
+   
+
+   func showLoader(){
+         self.view.showLoader()
+     }
+     
+     func hideLoader(){
+         self.view.hideLoader()
+     }
+    
     
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -106,10 +76,8 @@ class ProfileVC: UITableViewController,UIImagePickerControllerDelegate,UINavigat
         let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
             
             let ageTF = alertController.textFields![0] as UITextField
-            APIManager.updateUser(age: Int(ageTF.text!)!) { (err, success) in
-                self.getUserData()
-                
-            }
+            self.presenter.updateAge(age: ageTF.text!)
+        
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil )
         alertController.addAction(saveAction)
@@ -117,55 +85,43 @@ class ProfileVC: UITableViewController,UIImagePickerControllerDelegate,UINavigat
         self.present(alertController, animated: true, completion: nil)
     }
     
-  
+    
     
     @objc func addPhoto() {
         selectPhoto()
         
     }
     
+    
+  
+    func updateUI(){
+        navSetup()
+        imagePicker.delegate = self
+        imagePicker.delegate = self
+        userProfile.layer.borderWidth = 1
+        userProfile.layer.borderColor = #colorLiteral(red: 0.9051990799, green: 0.9051990799, blue: 0.9051990799, alpha: 1)
+        userProfile.clipsToBounds = true
+        userProfile.layer.cornerRadius = self.userProfile.frame.size.width / 2
+        let tabGesture = UITapGestureRecognizer()
+        userProfile.isUserInteractionEnabled = true
+        userProfile.addGestureRecognizer(tabGesture)
+        
+        
+    }
+    
     func go(){
         let signIn = SignInVC.create()
-        
-        
-        let navigationController = UINavigationController(rootViewController: signIn)
-        UserDefaultsManager.shared().token = nil
-        AppDelegate.shared().window?.rootViewController = navigationController
+               let navigationController = UINavigationController(rootViewController: signIn)
+               UserDefaultsManager.shared().token = nil
+               AppDelegate.shared().window?.rootViewController = navigationController
     }
-    
-    func getCharacters(name: String) -> String{
-        let chars = name.components(separatedBy: " ").reduce("") { ($0 == "" ? "" : "\($0.first!)") + "\($1.first!)" }
-        return chars
-    }
-    func updateUI(){
-          navSetup()
-          imagePicker.delegate = self
-         imagePicker.delegate = self
-         userProfile.layer.borderWidth = 1
-         userProfile.layer.borderColor = #colorLiteral(red: 0.9051990799, green: 0.9051990799, blue: 0.9051990799, alpha: 1)
-         userProfile.clipsToBounds = true
-         userProfile.layer.cornerRadius = self.userProfile.frame.size.width / 2
-         let tabGesture = UITapGestureRecognizer()
-         userProfile.isUserInteractionEnabled = true
-         userProfile.addGestureRecognizer(tabGesture)
-      
-      
-     }
-    
-    
-    func logOut(){
-        APIManager.logOut {
-            self.go()
-        }
-    }
-    @IBAction func logoutBtn(_ sender: UIButton) {
-        
-    }
-    
+  
+  
     
     // MARK:- Public Methods
     class func create() -> ProfileVC {
         let profile: ProfileVC = UIViewController.create(storyboardName: Storyboards.profile, identifier: ViewControllers.Profile)
+        profile.presenter = ProfilePresenter(view: profile)
         return profile
     }
 }

@@ -8,89 +8,84 @@
 
 import UIKit
 
-class TodoListVC: UIViewController, sendEvent, RempveTodo {
-    func event(eventInfo: ToDoEvent) {
-           eventTodo.append(eventInfo)
-            tableView.reloadData()
-    }
+class TodoListVC: UIViewController, sendEvent, RempveTodo,sendObj {
     
-    
-    // MARK:- Lifecycle methods
+    // MARK:- OutLet methods
     @IBOutlet weak var tableView: UITableView!
     var eventTodo = [ToDoEvent] ()
+    var presenter: TodoListPresenter!
+    // MARK:- Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-      navSetup()
-        setupTableView()
-        retrieve()
+        presenter.delegte = self
+        presenter.viewDidLoad()
     }
-    func deleteTaskId(id:String){
-        APIManager.deleteTask(id: id) { (error, todo) in
-            if let error = error{
-                print(error.localizedDescription)
-            } else if let todo = todo{
-                print(todo.id ?? "d")
-            }
-        }
+    func showLoader(){
+        self.view.showLoader()
     }
+    
+    func hideLoader(){
+        self.view.hideLoader()
+    }
+    
+    
     func navSetup(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "profile", style: .done, target: self, action: #selector(proflie))
-              navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action:
-                  #selector(addPost))
-              navigationItem.title = "New Tesk"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action:
+            #selector(addPost))
+        navigationItem.title = "New Tesk"
     }
-    func retrieve(){
-        self.view.showLoader()
-        APIManager.getTask { (error, todoEvent) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let todoEvent = todoEvent {
-                self.eventTodo = todoEvent
-                print(todoEvent)
-                self.view.hideLoader()
-                self.tableView.reloadData()
-               
-                
-            }
-        }
+    
+    
+    func reload(){
+        self.tableView.reloadData()
     }
-
     @objc func proflie() {
         let pro =  ProfileVC.create()
-            
-                       self.navigationController?.pushViewController(pro, animated: true)
+        
+        self.navigationController?.pushViewController(pro, animated: true)
     }
     
-
-    
-    
-    
-   @objc func addPost() {
+    @objc func addPost() {
         let pop =  PopViewVC.create()
         pop.delegate = self
-                present(pop, animated: true, completion: nil)
+        present(pop, animated: true, completion: nil)
     }
     
-     func didTapRemoveTodo(id: IndexPath) {
-         
-         let  alert = UIAlertController(title: "Sorry" , message: "Are You Sure You Want To Delete This TODO?" , preferredStyle: .alert)
-         let okAction = UIAlertAction(title:"Yes", style: .default){ (action) in
+    func didTapRemoveTodo(id: IndexPath) {
+        
+        let  alert = UIAlertController(title: "Sorry" , message: "Are You Sure You Want To Delete This TODO?" , preferredStyle: .alert)
+        let okAction = UIAlertAction(title:"Yes", style: .default){ (action) in
             let toDo = self.eventTodo.remove(at: id.row)
-            self.deleteTaskId(id: toDo.id!)
-             self.tableView.deleteRows(at: [id], with: .fade)
-           
+            self.presenter.deleteTaskId(id: toDo.id!)
+            self.tableView.deleteRows(at: [id], with: .fade)
+            
             self.tableView.reloadData()
-         }
-         alert.addAction(okAction)
-         alert.addAction(UIAlertAction.init(title: "No", style: .cancel, handler: nil))
-         self.present(alert, animated: true, completion: nil)
-       
-             }
+        }
+        alert.addAction(okAction)
+        alert.addAction(UIAlertAction.init(title: "No", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    // MARK:- Protocol Methods
+    func eventArr(arrOfTodo: [ToDoEvent]) {
+        eventTodo = arrOfTodo
+    }
+    
+    func event(eventInfo: ToDoEvent) {
+        eventTodo.append(eventInfo)
+        tableView.reloadData()
+    }
+    
+    
     
     // MARK:- Public Methods
     class func create() -> TodoListVC {
         let todoListVC: TodoListVC = UIViewController.create(storyboardName: Storyboards.main, identifier: ViewControllers.todoListVC)
+        todoListVC.presenter = TodoListPresenter(view: todoListVC)
+       
         return todoListVC
     }
 }

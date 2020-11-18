@@ -19,7 +19,8 @@ extension TodoListVC: UITableViewDelegate, UITableViewDataSource {
                tableView.backgroundView = UIImageView(image: UIImage(named: "background 2"))
 
        }
-
+    
+    // MARK:- TableView Methods
        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return eventTodo.count
            
@@ -32,7 +33,7 @@ extension TodoListVC: UITableViewDelegate, UITableViewDataSource {
            if  editingStyle == .delete {
                tableView.beginUpdates()
                let toDo =  eventTodo.remove(at: indexPath.row)
-            deleteTaskId(id: toDo.id!)
+            self.presenter.deleteTaskId(id: toDo.id!)
                tableView.deleteRows(at: [indexPath], with: .fade)
               
 

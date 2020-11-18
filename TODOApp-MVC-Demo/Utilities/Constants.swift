@@ -28,13 +28,13 @@ struct ViewControllers {
 // Urls
 struct URLs {
     static let base = "https://api-nodejs-todolist.herokuapp.com"
-    static let login = base + "/user/login"
-    static let logout = base + "/user/logout"
-    static let addUser = base + "/user/register"
-    static let addTask = base + "/task"
-    static let getTask = base + "/task"
-    static let getUser = base + "/user/me"
-    static let updateUser = base + "/user/me"
+    static let login =  "/user/login"
+    static let logout = "/user/logout"
+    static let addUser = "/user/register"
+    static let addTask = "/task"
+    static let getTask =  "/task"
+    static let getUser = "/user/me"
+    static let updateUser = "/user/me"
     static let addPhoto = base + "/user/me/avatar"
     static let getPhoto = base + "/user/"
     static let avater = "/avatar"
@@ -54,6 +54,7 @@ struct ParameterKeys {
     static let age = "age"
     static let description = "description"
     static let formdata =  "form"
+    static let id = "_id"
 }
 
 // UserDefaultsKeys

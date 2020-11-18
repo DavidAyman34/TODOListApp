@@ -12,84 +12,34 @@ extension APIManager {
     
     // MARK:- AddTaskAPI
     class func addTask(description: String,
-                       completion: @escaping(_ error: Error?, _ todoData: ToDoEvent?) -> Void) {
+                       completion: @escaping(Result<ToDoEvent,Error>) -> Void) {
         
-        let token = UserDefaultsManager.shared().token!
-        let headers: HTTPHeaders = [HeaderKeys.contentType: "application/json",
-                                    HeaderKeys.authorization: "Bearer \(token)"]
-        
-        let params: [String: Any] = [ParameterKeys.description: description]
-        
-        AF.request(URLs.addTask, method: HTTPMethod.post, parameters: params,
-                   encoding: JSONEncoding.default, headers: headers).response { response in
-                    
-                    switch response.result {
-                    case .success:
-                        print(response)
-                        print(token)
-                        break
-                    case .failure(let error):
-                        
-                        print(error)
-                    }        }
+        APIManager.request(APIRouter.addTask(description)) { (response) in
+            completion(response)
+        }
         
         
     }
     
     // MARK:- GetAllTask
-    class func getTask(
-        completion: @escaping(_ error: Error?, _ todoData: [ToDoEvent]?) -> Void) {
+  class func getTask(completion: @escaping (Result<getTasks, Error>)-> ()){
+         request(APIRouter.getTodos){ (response) in
+             completion(response)
         
-        let token = UserDefaultsManager.shared().token!
-        let headers: HTTPHeaders = [HeaderKeys.contentType: "application/json",
-                                    HeaderKeys.authorization: "Bearer \(UserDefaultsManager.shared().token!)"]
-        
-        
-        AF.request(URLs.getTask, method: HTTPMethod.get, parameters: nil,
-                   encoding: JSONEncoding.default, headers: headers).response { response in
-                    
-                    guard response.error == nil else {
-                        print(response.error!)
-                        completion(response.error, nil)
-                        return
-                    }
-                    
-                    guard let data = response.data else {
-                        print("didn't get any data from API")
-                        return
-                    }
-                    
-                    do {
-                        let decoder = JSONDecoder()
-                        let todoData = try decoder.decode(getTasks.self, from: data).data
-                        completion(nil, todoData)
-                    } catch let error {
-                        print(error)
-                    }
-        }
     }
+    
+    }
+    
     
     // MARK:- DeleteTask
     class func deleteTask(id: String,
-                          completion: @escaping(_ error: Error?, _ todoData: ToDoEvent?) -> Void) {
+                          completion: @escaping(Result<ToDoEvent,Error>) -> Void) {
+        APIManager.request(APIRouter.deleteTask(id)) { (response) in
         
-        let token = UserDefaultsManager.shared().token!
-        let headers: HTTPHeaders = [HeaderKeys.contentType: "application/json",
-                                    HeaderKeys.authorization: "Bearer \(token)"]
-        
-        AF.request(URLs.addTask + "/\(id)", method: HTTPMethod.delete, parameters: nil,
-                   encoding: JSONEncoding.default, headers: headers).response { response in
-                    
-                    switch response.result {
-                    case .success:
-                        print(response)
-                        print(token)
-                        break
-                    case .failure(let error):
-                        
-                        print(error)
-                    }
+            completion(response)
         }
+        
+       
     }
     // MARK:- Addphoto
     class func createPhoto(avatar: UIImage, completion: @escaping () -> Void){
@@ -120,8 +70,8 @@ extension APIManager {
     // MARK:- Getphoto
     class func getPhoto(id: String,
                         completion: @escaping(_ error: Error?, _ userProfile: UIImage?) -> Void) {
-        
-        AF.request("https://api-nodejs-todolist.herokuapp.com/user/5f99e3dcedd4e1001715547c/avatar", method: HTTPMethod.get, parameters: nil,
+        let URLphoto = URLs.getPhoto + id + URLs.avater
+        AF.request(URLphoto , method: HTTPMethod.get, parameters: nil,
                    encoding: JSONEncoding.default, headers: nil).response { response in
                     
                     guard response.error == nil else {
@@ -133,7 +83,7 @@ extension APIManager {
                         print("didn't get any data from API")
                         return
                     }
-                    let uiimage: UIImage = UIImage(data: data)!
+                    let uiimage: UIImage = UIImage(data: data) ?? UIImage(imageLiteralResourceName: "WHITE")
                     completion(nil,uiimage)
         }
     }

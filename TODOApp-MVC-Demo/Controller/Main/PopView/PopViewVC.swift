@@ -13,66 +13,51 @@ protocol sendEvent {
 }
 class PopViewVC: UIViewController {
     
+    // MARK:- OutLet methods
     @IBOutlet weak var popView: UIView!
     @IBOutlet weak var descriptionTextField: UITextField!
-    
-    
     var delegate : sendEvent!
     var event : ToDoEvent!
-    
+    var presenter: PopViewPresenter!
+    // MARK:- Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-         popView.layer.cornerRadius = popView.frame.height/4
+        popView.layer.cornerRadius = popView.frame.height/4
         
         // Do any additional setup after loading the view.
     }
     
     
-    func saveTask(desc: String){
-        APIManager.addTask(description: desc) { (error, todoEvent) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let todoEvent = todoEvent {
-                print(todoEvent.description)
-                
-            }
-        }
-    } 
+    func showLoader(){
+        self.view.showLoader()
+    }
     
-    
-    
-    func dismissPop(){
-        
+    func hideLoader(){
+        self.view.hideLoader()
+    }
+     func dismissPop(){
         let newEvent = ToDoEvent(description: descriptionTextField.text!)
         delegate?.event(eventInfo: newEvent)
-        saveTask(desc: descriptionTextField.text!)
         dismiss(animated: true, completion: nil)
-        
     }
     func check() -> Bool {
-           guard  let description = descriptionTextField.text,
-               !description.isEmpty
+        guard  let description = descriptionTextField.text,
+            !description.isEmpty
             
-               else {return false}
-           return true
-       }
-    
-    @IBAction func saveBtn(_ sender: UIButton) {
-        
-        if check() == true{
-            dismissPop()
-            
-        }
-        else {
-            AlertManager.alert(title: "Description", massage: "please write some to remind your event", present: self, titleBtn: "Ok")
-                             return
-            
-        
+            else {return false}
+        return true
     }
+    
+    func presentError(massage: String){
+        AlertManager.alert(title: "Error", massage: massage, present: self, titleBtn: "OK")
+    }
+    @IBAction func saveBtn(_ sender: UIButton) {
+        presenter.tryToSaveTask(desc: descriptionTextField.text!)
     }
     // MARK:- Public Methods
     class func create() -> PopViewVC {
         let popViewVC: PopViewVC = UIViewController.create(storyboardName: Storyboards.main, identifier: ViewControllers.popView)
+        popViewVC.presenter = PopViewPresenter(view: popViewVC)
         return popViewVC
     }
     

@@ -8,44 +8,51 @@
 
 import UIKit
 
-class SignInVC: UIViewController {
+class SignInVC: UIViewController{
     
+ // MARK:- OutLet methods
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var PassTextField: UITextField!
     @IBOutlet weak var logInBtn: UIButton!
-    
+     
+    var presenter: SignInPresenter!
     // MARK:- Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
+         
+      
         
-           navigationController?.isNavigationBarHidden = true
-       
     }
-    
-    func go(){
+    // MARK:- methods
+     func go(){
         let todoListVC = TodoListVC.create()
         let navigationController = UINavigationController(rootViewController: todoListVC)
         AppDelegate.shared().window?.rootViewController = navigationController
     }
     
-    @IBAction func logInBtn(_ sender: Any) {
-        self.view.showLoader()
-        APIManager.login(with: emailTextField.text!, password: PassTextField.text!) { (error, loginData) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let loginData = loginData {
-                self.go()
-                self.view.hideLoader()
-                print(loginData.token)
-                print(loginData.user)
-                UserDefaultsManager.shared().token = loginData.token
-            }
-        }
-        
+    func showLaoder(){
+         self.view.showLoader()
     }
+    
+    func hideLoader(){
+        self.view.hideLoader()
+    }
+    func setupNev(){
+          navigationController?.isNavigationBarHidden = true
+    }
+    func presentError(massage: String){
+        AlertManager.alert(title: "Error", massage: massage, present: self, titleBtn: "OK")
+    }
+    
+    // MARK:- Button Methods
+    @IBAction func logInBtn(_ sender: Any) {
+        presenter.tryToLogin(email: emailTextField.text!, password: PassTextField.text!)
+      
+}
+   
     @IBAction func signUpBtn(_ sender: Any) {
         let su =  SignUpVC.create()
-    
+        
         self.navigationController?.pushViewController(su, animated: true)
     }
     
@@ -53,6 +60,7 @@ class SignInVC: UIViewController {
     // MARK:- Public Methods
     class func create() -> SignInVC {
         let signInVC: SignInVC = UIViewController.create(storyboardName: Storyboards.authentication, identifier: ViewControllers.signInVC)
+        signInVC.presenter = SignInPresenter(view: signInVC)
         return signInVC
     }
     
