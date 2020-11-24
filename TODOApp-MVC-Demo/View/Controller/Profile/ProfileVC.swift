@@ -17,6 +17,7 @@ class ProfileVC: UITableViewController,UIImagePickerControllerDelegate,UINavigat
     @IBOutlet weak var editProfilelabl: UILabel!
     @IBOutlet weak var userProfile: UIImageView!
     @IBOutlet weak var imageLabel: UILabel!
+
     var userD : UserData?
     let imagePicker = UIImagePickerController()
     var name: UITextField?
@@ -25,7 +26,7 @@ class ProfileVC: UITableViewController,UIImagePickerControllerDelegate,UINavigat
     // MARK:- Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       // profileView.setup()
         presenter.getUserData()
         updateUI()
         
@@ -95,18 +96,18 @@ class ProfileVC: UITableViewController,UIImagePickerControllerDelegate,UINavigat
     
   
     func updateUI(){
+         let tabGesture = UITapGestureRecognizer()
         navSetup()
         imagePicker.delegate = self
         imagePicker.delegate = self
-        userProfile.layer.borderWidth = 1
-        userProfile.layer.borderColor = #colorLiteral(red: 0.9051990799, green: 0.9051990799, blue: 0.9051990799, alpha: 1)
-        userProfile.clipsToBounds = true
-        userProfile.layer.cornerRadius = self.userProfile.frame.size.width / 2
-        let tabGesture = UITapGestureRecognizer()
-        userProfile.isUserInteractionEnabled = true
-        userProfile.addGestureRecognizer(tabGesture)
-        
-        
+       
+           userProfile.layer.cornerRadius = userProfile.frame.height/2
+           userProfile.layer.borderWidth = 1
+           userProfile.layer.borderColor = #colorLiteral(red: 0.9051990799, green: 0.9051990799, blue: 0.9051990799, alpha: 1)
+           userProfile.clipsToBounds = true
+           userProfile.contentMode = .scaleAspectFit
+           userProfile.isUserInteractionEnabled = true
+           userProfile.addGestureRecognizer(tabGesture)
     }
     
     func go(){

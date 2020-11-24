@@ -14,15 +14,16 @@ protocol sendEvent {
 class PopViewVC: UIViewController {
     
     // MARK:- OutLet methods
-    @IBOutlet weak var popView: UIView!
+   
     @IBOutlet weak var descriptionTextField: UITextField!
+    @IBOutlet var popView: PopView!
     var delegate : sendEvent!
     var event : ToDoEvent!
     var presenter: PopViewPresenter!
     // MARK:- Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        popView.layer.cornerRadius = popView.frame.height/4
+        popView.setup()
         
         // Do any additional setup after loading the view.
     }

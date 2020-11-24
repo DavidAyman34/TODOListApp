@@ -11,7 +11,7 @@
         <scene sceneID="cu4-bC-ct2">
             <objects>
                 <viewController restorationIdentifier="TodoListVC" storyboardIdentifier="TodoListVC" id="u31-18-cdc" customClass="TodoListVC" customModule="TODOApp_MVC_Demo" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="tG0-jV-7zj">
+                    <view key="view" contentMode="scaleToFill" id="tG0-jV-7zj" customClass="TodoListView" customModule="TODOApp_MVC_Demo" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -35,11 +35,15 @@
                             <constraint firstAttribute="bottom" secondItem="J7L-tY-pwC" secondAttribute="bottom" id="l9b-TW-WNf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="N6B-pQ-6uh"/>
+                        <connections>
+                            <outlet property="backImg" destination="J7L-tY-pwC" id="d1r-JM-Cl3"/>
+                        </connections>
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="tre-z4-orO" id="c3c-H7-AN2"/>
+                        <outlet property="todoListView" destination="tG0-jV-7zj" id="iLl-49-kTf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7pu-El-CGm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -50,7 +54,7 @@
         <scene sceneID="C3U-Ib-ge4">
             <objects>
                 <viewController restorationIdentifier="PopViewVC" storyboardIdentifier="PopViewVC" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="LhQ-br-6C7" customClass="PopViewVC" customModule="TODOApp_MVC_Demo" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="4Vq-7n-kys">
+                    <view key="view" contentMode="scaleToFill" id="4Vq-7n-kys" customClass="PopView" customModule="TODOApp_MVC_Demo" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -84,7 +88,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QjC-sp-4Up">
                                         <rect key="frame" x="66" y="75" width="134" height="30"/>
                                         <color key="backgroundColor" red="0.38511821629999998" green="0.1220983192" blue="0.48669749499999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="Save"/>
+                                        <state key="normal">
+                                            <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        </state>
                                         <connections>
                                             <action selector="saveBtn:" destination="LhQ-br-6C7" eventType="touchUpInside" id="X3I-4v-rkb"/>
                                         </connections>
@@ -108,10 +114,14 @@
                             <constraint firstItem="t9y-Hf-9A8" firstAttribute="centerX" secondItem="4Vq-7n-kys" secondAttribute="centerX" id="Qi5-48-aP0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="AKn-Hw-LXf"/>
+                        <connections>
+                            <outlet property="descTextField" destination="uRA-ZN-ehc" id="k3C-wo-DGC"/>
+                            <outlet property="saveBtn" destination="QjC-sp-4Up" id="uAb-i8-afe"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="descriptionTextField" destination="uRA-ZN-ehc" id="NoT-dK-BoD"/>
-                        <outlet property="popView" destination="t9y-Hf-9A8" id="pgn-5s-gFO"/>
+                        <outlet property="popView" destination="4Vq-7n-kys" id="1tw-mc-v0G"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tnc-WH-CUZ" userLabel="First Responder" sceneMemberID="firstResponder"/>

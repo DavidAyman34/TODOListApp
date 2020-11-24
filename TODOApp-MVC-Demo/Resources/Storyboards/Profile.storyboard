@@ -145,10 +145,6 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="Isc-lu-iit" id="8XI-EO-Dqw"/>
-                            <outlet property="delegate" destination="Isc-lu-iit" id="YM8-5p-l9F"/>
-                        </connections>
                     </tableView>
                     <toolbarItems>
                         <barButtonItem title="Edit" style="plain" id="8fS-GP-1ia">
@@ -160,6 +156,7 @@
                         <outlet property="ageLabel" destination="Gxm-c3-kDo" id="dos-JS-hlj"/>
                         <outlet property="editProfilelabl" destination="qIb-yy-0qV" id="WQ2-Df-Xoz"/>
                         <outlet property="emailLabel" destination="am0-6d-U50" id="24s-Ws-D5j"/>
+                        <outlet property="imageLabel" destination="ozI-G3-OJj" id="70d-C9-SFx"/>
                         <outlet property="logOutlabl" destination="Pud-Br-ac7" id="Ytd-qa-D5n"/>
                         <outlet property="namelabl" destination="StA-Gn-GHb" id="6NQ-FK-Zhj"/>
                         <outlet property="userProfile" destination="Fu7-QK-Ops" id="giv-Dv-x56"/>

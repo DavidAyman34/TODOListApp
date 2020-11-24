@@ -10,12 +10,12 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
-
-
+    
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
+        
         if UserDefaultsManager.shared().token != nil {
             switchToMainState()
         } else {
@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
-
+    
     
     func switchToMainState() {
         let todoListVC = TodoListVC.create()
@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = UINavigationController(rootViewController: signInVC)
         self.window?.rootViewController = navigationController
     }
-
+    
 }
 
 extension AppDelegate {

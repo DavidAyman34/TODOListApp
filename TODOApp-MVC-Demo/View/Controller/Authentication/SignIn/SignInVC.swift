@@ -14,14 +14,14 @@ class SignInVC: UIViewController{
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var PassTextField: UITextField!
     @IBOutlet weak var logInBtn: UIButton!
-     
+    @IBOutlet var signInView: SignInView!
     var presenter: SignInPresenter!
     // MARK:- Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
          
-      
-        
+      navigationController?.isNavigationBarHidden = true
+        signInView.setUp()
     }
     // MARK:- methods
      func go(){

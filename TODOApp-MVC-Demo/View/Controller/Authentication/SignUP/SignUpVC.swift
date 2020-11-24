@@ -15,6 +15,7 @@ class SignUpVC: UIViewController {
     @IBOutlet weak var passTextField: UITextField!
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var ageTextField: UITextField!
+    @IBOutlet var signUpView: SignUpView!
     
     var presenter: SignUpPresenter!
     
@@ -23,6 +24,7 @@ class SignUpVC: UIViewController {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         // Do any additional setup after loading the view.
+        signUpView.setup()
     }
     
     // MARK:- Methods

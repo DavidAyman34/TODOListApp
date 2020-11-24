@@ -11,6 +11,7 @@ import UIKit
 class TodoListVC: UIViewController, sendEvent, RempveTodo,sendObj {
     
     // MARK:- OutLet methods
+    @IBOutlet var todoListView: TodoListView!
     @IBOutlet weak var tableView: UITableView!
     var eventTodo = [ToDoEvent] ()
     var presenter: TodoListPresenter!
@@ -18,6 +19,7 @@ class TodoListVC: UIViewController, sendEvent, RempveTodo,sendObj {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        todoListView.setup()
         presenter.delegte = self
         presenter.viewDidLoad()
     }

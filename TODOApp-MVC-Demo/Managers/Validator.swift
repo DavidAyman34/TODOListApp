@@ -7,8 +7,35 @@
 //
 
 import Foundation
-struct valid {
-   static func isValidEmail(email: String?) -> Bool {
+class validator {
+    
+    private static let sharedInstance = validator()
+    
+    class func shared() -> validator {
+        return validator.sharedInstance
+    }
+    
+    
+//    var email: String? {
+//        set{
+//            self.email = newValue
+//        }
+//        get{
+//            guard isValidEmail(email: self.email) == false else{return self.email}
+//            return self.email
+//        }
+//    }
+//
+//    var pass: String? {
+//        set{
+//            self.pass = newValue
+//        }
+//        get{
+//            guard isValidPassword(testStr: self.pass) != false else{return nil}
+//            return self.pass
+//        }
+//    }
+    func isValidEmail(email: String?) -> Bool {
         guard email != nil else { return false }
         let regEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         let pred = NSPredicate(format:"SELF MATCHES %@", regEx)
@@ -25,7 +52,7 @@ struct valid {
         //        There’s at least 2 alpha characters after a .
     }
     
-  static  func isValidPassword(testStr: String?) -> Bool {
+    func isValidPassword(testStr: String?) -> Bool {
         guard testStr != nil else { return false }
         // at least one uppercase,
         // at least one digit

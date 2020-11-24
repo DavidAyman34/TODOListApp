@@ -12,11 +12,11 @@
         <scene sceneID="oWq-JK-Cas">
             <objects>
                 <viewController storyboardIdentifier="SignUpVC" id="dmy-a0-LqK" customClass="SignUpVC" customModule="TODOApp_MVC_Demo" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Ua5-0h-e7M">
+                    <view key="view" contentMode="scaleToFill" id="Ua5-0h-e7M" customClass="SignUpView" customModule="TODOApp_MVC_Demo" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background 2" translatesAutoresizingMaskIntoConstraints="NO" id="zbt-SE-kp8">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zbt-SE-kp8">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oov-qP-VI8">
@@ -202,6 +202,15 @@
                             <constraint firstItem="OMd-tx-G2a" firstAttribute="leading" secondItem="KWV-lk-Mxp" secondAttribute="trailing" constant="19" id="vtk-2q-14Z"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="udI-S0-54s"/>
+                        <connections>
+                            <outlet property="ageTextField" destination="frx-WS-Ati" id="qGi-s7-Rr1"/>
+                            <outlet property="backImg" destination="zbt-SE-kp8" id="cDN-GL-vxO"/>
+                            <outlet property="emailTextField" destination="Q6H-x4-DNW" id="F5x-bZ-IGT"/>
+                            <outlet property="passTextField" destination="DB8-Gx-TaZ" id="ncR-Ua-ZXc"/>
+                            <outlet property="signInBtn" destination="CDz-hx-LXD" id="5te-oV-Odr"/>
+                            <outlet property="signUpBtn" destination="4Tr-Du-DJu" id="cbV-V4-6No"/>
+                            <outlet property="userNameTextField" destination="64N-EY-yRX" id="Z5Y-ak-0RN"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="nbW-gI-I23"/>
                     <connections>
@@ -209,6 +218,7 @@
                         <outlet property="emailTextField" destination="Q6H-x4-DNW" id="pJ0-sK-E1J"/>
                         <outlet property="passTextField" destination="DB8-Gx-TaZ" id="xUJ-Sp-gFu"/>
                         <outlet property="signUpBtn" destination="4Tr-Du-DJu" id="Dtx-Vw-vnw"/>
+                        <outlet property="signUpView" destination="Ua5-0h-e7M" id="0oi-kW-bba"/>
                         <outlet property="userNameTextField" destination="64N-EY-yRX" id="TMK-eD-6Eb"/>
                     </connections>
                 </viewController>
@@ -220,11 +230,11 @@
         <scene sceneID="eq5-Tu-TNb">
             <objects>
                 <viewController storyboardIdentifier="SignInVC" id="UVw-s0-uMi" customClass="SignInVC" customModule="TODOApp_MVC_Demo" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="2kx-jT-1kL">
+                    <view key="view" contentMode="scaleToFill" id="2kx-jT-1kL" customClass="SignInView" customModule="TODOApp_MVC_Demo" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background 2" translatesAutoresizingMaskIntoConstraints="NO" id="l58-3a-T43">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="l58-3a-T43">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log In" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EO4-KN-Za6">
@@ -345,21 +355,27 @@
                             <constraint firstItem="JB9-lZ-Cyn" firstAttribute="top" secondItem="JsH-eA-ewq" secondAttribute="top" constant="197" id="yB8-T7-qRT"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="JsH-eA-ewq"/>
+                        <connections>
+                            <outlet property="PassTextField" destination="LnZ-24-OiZ" id="MJN-ub-2mn"/>
+                            <outlet property="backImg" destination="l58-3a-T43" id="qdF-Nd-HU8"/>
+                            <outlet property="emailTextField" destination="vUP-mp-OH8" id="0oV-eu-T3T"/>
+                            <outlet property="logInBtn" destination="tTo-bZ-Ges" id="3QV-kZ-SVn"/>
+                            <outlet property="signUpBtn" destination="ahs-c8-cIP" id="J7S-4x-6Gf"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="ano-CE-6fq"/>
                     <connections>
                         <outlet property="PassTextField" destination="LnZ-24-OiZ" id="YwT-91-R39"/>
                         <outlet property="emailTextField" destination="vUP-mp-OH8" id="ULV-E2-Eoz"/>
-                        <outlet property="logInBtn" destination="tTo-bZ-Ges" id="d3g-C7-8eW"/>
+                        <outlet property="signInView" destination="2kx-jT-1kL" id="F7R-X1-UZI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ulR-9W-U0W" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1857" y="151"/>
+            <point key="canvasLocation" x="1856.521739130435" y="150.66964285714286"/>
         </scene>
     </scenes>
     <resources>
-        <image name="background 2" width="414" height="736"/>
         <image name="emailIcon" width="17" height="14.5"/>
         <image name="passwordIcon" width="13" height="16.5"/>
         <image name="userNameIcon" width="14" height="16.5"/>
