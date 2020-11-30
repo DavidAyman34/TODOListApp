@@ -8,27 +8,32 @@
 
 import UIKit
 
+protocol TodoListProtocols: class{
+    func showLoader()
+    func hideLoader()
+    func reload()
+    func event(eventInfo: ToDoEvent)
+    func eventArr(arrOfTodo: [ToDoEvent])
+}
+
 class TodoListVC: UIViewController, sendEvent, RempveTodo,sendObj {
+    
+    
     
     // MARK:- OutLet methods
     @IBOutlet var todoListView: TodoListView!
     @IBOutlet weak var tableView: UITableView!
     var eventTodo = [ToDoEvent] ()
-    var presenter: TodoListPresenter!
+    var presenter: TodoListViewModelProtocols!
     // MARK:- Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        setupTableView()
+        navSetup()
         todoListView.setup()
-        presenter.delegte = self
+        //presenter.delegte = self
         presenter.viewDidLoad()
-    }
-    func showLoader(){
-        self.view.showLoader()
-    }
-    
-    func hideLoader(){
-        self.view.hideLoader()
     }
     
     
@@ -40,9 +45,7 @@ class TodoListVC: UIViewController, sendEvent, RempveTodo,sendObj {
     }
     
     
-    func reload(){
-        self.tableView.reloadData()
-    }
+    
     @objc func proflie() {
         let pro =  ProfileVC.create()
         
@@ -72,6 +75,18 @@ class TodoListVC: UIViewController, sendEvent, RempveTodo,sendObj {
     }
     
     // MARK:- Protocol Methods
+    
+    
+    
+    // MARK:- Public Methods
+    class func create() -> TodoListVC {
+        let todoListVC: TodoListVC = UIViewController.create(storyboardName: Storyboards.main, identifier: ViewControllers.todoListVC)
+        todoListVC.presenter = TodoListViewModel(view: todoListVC)
+        
+        return todoListVC
+    }
+}
+extension TodoListVC: TodoListProtocols{
     func eventArr(arrOfTodo: [ToDoEvent]) {
         eventTodo = arrOfTodo
     }
@@ -81,14 +96,16 @@ class TodoListVC: UIViewController, sendEvent, RempveTodo,sendObj {
         tableView.reloadData()
     }
     
-    
-    
-    // MARK:- Public Methods
-    class func create() -> TodoListVC {
-        let todoListVC: TodoListVC = UIViewController.create(storyboardName: Storyboards.main, identifier: ViewControllers.todoListVC)
-        todoListVC.presenter = TodoListPresenter(view: todoListVC)
-       
-        return todoListVC
+    func reload(){
+        self.tableView.reloadData()
     }
+    func showLoader(){
+        self.view.showLoader()
+    }
+    
+    func hideLoader(){
+        self.view.hideLoader()
+    }
+    
 }
 

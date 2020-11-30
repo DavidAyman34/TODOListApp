@@ -10,27 +10,24 @@ import Foundation
 protocol sendObj{
     func eventArr(arrOfTodo:[ToDoEvent])
 }
-class TodoListPresenter{
+protocol TodoListViewModelProtocols {
+    func viewDidLoad()
+    func deleteTaskId(id:String)
+   
+}
+class TodoListViewModel{
     
-    weak var view: TodoListVC!
+    weak var view: TodoListProtocols!
     var TodoList = [ToDoEvent] ()
     var delegte: sendObj!
     
     // MARK:- Initialization Methods
-    init(view: TodoListVC) {
+    init(view: TodoListProtocols) {
         self.view = view
     }
     
     // MARK:- Methods
-    func viewDidLoad(){
-        self.view.setupTableView()
-        self.view.navSetup()
-        retrieve()
-        
-    }
-    
-
-    func retrieve(){
+    private func retrieve(){
         self.view.showLoader()
         APIManager.getTask{ (response) in
             switch response{
@@ -39,12 +36,17 @@ class TodoListPresenter{
             case .success(let result):
                 
                 self.TodoList = result.data
-                self.delegte.eventArr(arrOfTodo: self.TodoList)
+                self.view.eventArr(arrOfTodo: self.TodoList)
                 self.view.reload()
                 
             }
             self.view.hideLoader()
         }
+    }
+}
+extension TodoListViewModel: TodoListViewModelProtocols{
+    func viewDidLoad(){
+        retrieve()
     }
     
     func deleteTaskId(id:String){

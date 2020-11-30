@@ -8,13 +8,19 @@
 protocol sendUser {
     func getData(user: UserData)
 }
+protocol ProfileViewModelProtocols {
+    func updateAge(age: String)
+    func logOut()
+    func getUserData()
+}
 import Foundation
-class ProfilePresenter{
-    weak var view: ProfileVC!
+
+class ProfileViewModel{
+    weak var view: ProfileViewProtocols!
     var userData : UserData?
     var delegate: sendUser!
     
-    init(view: ProfileVC) {
+    init(view: ProfileViewProtocols) {
         self.view = view
     }
     
@@ -29,7 +35,8 @@ class ProfilePresenter{
             if let error = error {
                 print(error.localizedDescription)
             } else if let photo = photo {
-                self.view.userProfile.image = photo
+                
+                self.view.image(img: photo)
                 print("done")
                 
                 
@@ -37,6 +44,10 @@ class ProfilePresenter{
         }
         
     }
+    
+    
+}
+extension ProfileViewModel: ProfileViewModelProtocols{
     
     func updateAge(age: String){
         APIManager.updateUser(age: Int(age)!) { (response) in
@@ -70,17 +81,11 @@ class ProfilePresenter{
                 self.getUserProfile(id: self.userData?.id ?? "")
                 print(self.userData ?? "s")
                 let firstCharcters = self.getCharacters(name: self.userData!.name)
-                if self.view.userProfile == nil{
-                    
-                    self.view.imageLabel.isHidden = false
-                    self.view.imageLabel.text = firstCharcters
-                }
-                self.view.emailLabel.text = self.userData?.email
-                guard ((self.view.namelabl?.text = user?.name) != nil)   else  {return}
+                self.view.getUser(user: user!)
+                self.view.imageEmpty(charcters: firstCharcters)
                 
-                guard ((self.view.ageLabel?.text = String(user!.age)) != nil)   else  {return}
                 self.view.hideLoader()
-                self.view.tableView.reloadData()
+                self.view.reload()
             }
         }
     }

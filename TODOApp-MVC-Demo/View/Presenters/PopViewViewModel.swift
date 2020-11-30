@@ -7,12 +7,14 @@
 //
 
 import Foundation
-
-class PopViewPresenter{
-    weak var view: PopViewVC!
+protocol PopViewViewModelProtocols {
+    func checkToSaveTasks(desc: String)
+}
+class PopViewViewModel{
+    weak var view: PopViewProtocols!
     
     // MARK:- Initialization Methods
-    init(view: PopViewVC) {
+    init(view: PopViewProtocols) {
         self.view = view
     }
     // MARK:- Private Methods
@@ -24,21 +26,23 @@ class PopViewPresenter{
                 print(error.localizedDescription)
             case.success(let user):
                 print(user.description)
-                 self.view.hideLoader()
+                self.view.hideLoader()
             }
-           
+            
         }
         
     }
-    
+}
+extension PopViewViewModel: PopViewViewModelProtocols{
     // MARK:- Public Methods
-    func tryToSaveTask(desc: String){
+    func checkToSaveTasks(desc: String){
         if self.view.check() == true{
             saveTask(desc: desc)
             self.view.dismissPop()
-               }
+        }
         else{
             view.presentError(massage: "please write some to remind your event")
         }
     }
 }
+

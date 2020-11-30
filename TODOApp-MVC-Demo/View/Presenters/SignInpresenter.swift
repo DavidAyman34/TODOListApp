@@ -9,14 +9,17 @@
 import Foundation
 import Alamofire
 
+protocol SignInViewModelProtocols{
+    func tryToLogin(email: String, password: String)
+}
 
-class SignInPresenter{
+class SignInViewModel{
     
-    private weak var view: SignInVC!
+     weak var view: SignInVCProtocol!
     //var vild : valid!
     
     // MARK:- Initialization Methods
-    init(view: SignInVC) {
+    init(view: SignInVCProtocol) {
         self.view = view
     }
     
@@ -36,7 +39,7 @@ class SignInPresenter{
     }
     
     private func login(email: String, password: String){
-        self.view.showLaoder()
+        self.view.showLoader()
         APIManager.login(email: email, password: password) { (response) in
             switch response {
             case .failure(let error):
@@ -49,12 +52,12 @@ class SignInPresenter{
         }
     }
     
-    // MARK:- public methods
+}
+extension SignInViewModel: SignInViewModelProtocols{
+    
     func tryToLogin(email: String, password: String){
-        if validteFields(email: email, password: password){
-            login(email: email, password: password)
-        }
-    }
-    
-    
+          if validteFields(email: email, password: password){
+              login(email: email, password: password)
+          }
+      }
 }

@@ -8,6 +8,16 @@
 
 import UIKit
 
+protocol SignUpProtocols: class{
+    
+    func showLoader()
+    func hideLoader()
+    func presentError(massage: String)
+    func go()
+    func Empty()
+       func check() -> Bool
+}
+
 class SignUpVC: UIViewController {
     // MARK:- OutLet methods
     @IBOutlet weak var userNameTextField: UITextField!
@@ -17,7 +27,7 @@ class SignUpVC: UIViewController {
     @IBOutlet weak var ageTextField: UITextField!
     @IBOutlet var signUpView: SignUpView!
     
-    var presenter: SignUpPresenter!
+    var presenter: SignUpViewModel!
     
     // MARK:- Lifecycle methods
     override func viewDidLoad() {
@@ -28,17 +38,49 @@ class SignUpVC: UIViewController {
     }
     
     // MARK:- Methods
-    func showLoader(){
-         self.view.showLoader()
+   
+
+    
+     
+   
+    
+  // MARK:- Button methods
+    @IBAction func signUpBtn(_ sender: Any) {
+        presenter.tryToSaveUser(name: userNameTextField.text!, email: emailTextField.text!, password: passTextField.text!, age: ageTextField.text!)
+        
+    }
+    @IBAction func signInBtn(_ sender: Any) {
+        let su =  SignInVC.create()
+        self.navigationController?.pushViewController(su, animated: true)
     }
     
-    func hideLoader(){
-        self.view.hideLoader()
+    // MARK:- Public Methods
+    class func create() -> SignUpVC {
+        let signUpVC: SignUpVC = UIViewController.create(storyboardName: Storyboards.authentication,
+                                                         identifier: ViewControllers.signUpVC)
+        signUpVC.presenter = SignUpViewModel(view: signUpVC)
+        return signUpVC
     }
-    func presentError(massage: String){
-        AlertManager.alert(title: "Error", massage: massage, present: self, titleBtn: "OK")
+}
+extension SignUpVC: SignUpProtocols{
+ 
+   
+    func showLoader() {
+          self.view.showLoader()
     }
 
+       func hideLoader(){
+           self.view.hideLoader()
+       }
+       func presentError(massage: String){
+           AlertManager.alert(title: "Error", massage: massage, present: self, titleBtn: "OK")
+       }
+    func go(){
+        let todoListVC = TodoListVC.create()
+        let navigationController = UINavigationController(rootViewController: todoListVC)
+        AppDelegate.shared().window?.rootViewController = navigationController
+    }
+    
      func check() -> Bool {
         guard  let userName = userNameTextField.text,
             !userName.isEmpty,
@@ -68,30 +110,5 @@ class SignUpVC: UIViewController {
             
         }
     }
-    
-     func go(){
-        let todoListVC = TodoListVC.create()
-        let navigationController = UINavigationController(rootViewController: todoListVC)
-        AppDelegate.shared().window?.rootViewController = navigationController
-    }
 
-   
-    
-  // MARK:- Button methods
-    @IBAction func signUpBtn(_ sender: Any) {
-        presenter.tryToSaveUser(name: userNameTextField.text!, email: emailTextField.text!, password: passTextField.text!, age: ageTextField.text!)
-        
-    }
-    @IBAction func signInBtn(_ sender: Any) {
-        let su =  SignInVC.create()
-        self.navigationController?.pushViewController(su, animated: true)
-    }
-    
-    // MARK:- Public Methods
-    class func create() -> SignUpVC {
-        let signUpVC: SignUpVC = UIViewController.create(storyboardName: Storyboards.authentication,
-                                                         identifier: ViewControllers.signUpVC)
-        signUpVC.presenter = SignUpPresenter(view: signUpVC)
-        return signUpVC
-    }
 }

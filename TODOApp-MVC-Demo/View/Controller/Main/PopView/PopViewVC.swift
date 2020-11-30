@@ -7,9 +7,17 @@
 //
 
 import UIKit
+
 protocol sendEvent {
     func event (eventInfo: ToDoEvent)
     
+}
+protocol PopViewProtocols: class {
+     func dismissPop()
+     func showLoader()
+     func hideLoader()
+     func presentError(massage: String)
+     func check() -> Bool
 }
 class PopViewVC: UIViewController {
     
@@ -19,7 +27,7 @@ class PopViewVC: UIViewController {
     @IBOutlet var popView: PopView!
     var delegate : sendEvent!
     var event : ToDoEvent!
-    var presenter: PopViewPresenter!
+    var presenter: PopViewViewModelProtocols!
     // MARK:- Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,40 +35,42 @@ class PopViewVC: UIViewController {
         
         // Do any additional setup after loading the view.
     }
-    
-    
-    func showLoader(){
-        self.view.showLoader()
-    }
-    
-    func hideLoader(){
-        self.view.hideLoader()
-    }
-     func dismissPop(){
-        let newEvent = ToDoEvent(description: descriptionTextField.text!)
-        delegate?.event(eventInfo: newEvent)
-        dismiss(animated: true, completion: nil)
-    }
-    func check() -> Bool {
-        guard  let description = descriptionTextField.text,
-            !description.isEmpty
-            
-            else {return false}
-        return true
-    }
-    
-    func presentError(massage: String){
-        AlertManager.alert(title: "Error", massage: massage, present: self, titleBtn: "OK")
-    }
+ 
     @IBAction func saveBtn(_ sender: UIButton) {
-        presenter.tryToSaveTask(desc: descriptionTextField.text!)
+        presenter.checkToSaveTasks(desc: descriptionTextField.text!)
     }
     // MARK:- Public Methods
     class func create() -> PopViewVC {
         let popViewVC: PopViewVC = UIViewController.create(storyboardName: Storyboards.main, identifier: ViewControllers.popView)
-        popViewVC.presenter = PopViewPresenter(view: popViewVC)
+        popViewVC.presenter = PopViewViewModel(view: popViewVC)
         return popViewVC
     }
+}
+
+extension PopViewVC:PopViewProtocols{
+    func check() -> Bool {
+           guard  let description = descriptionTextField.text,
+               !description.isEmpty
+               
+               else {return false}
+           return true
+       }
     
+    func dismissPop(){
+           let newEvent = ToDoEvent(description: descriptionTextField.text!)
+           delegate?.event(eventInfo: newEvent)
+           dismiss(animated: true, completion: nil)
+       }
     
+    func presentError(massage: String){
+        AlertManager.alert(title: "Error", massage: massage, present: self, titleBtn: "OK")
+    }
+    
+    func showLoader(){
+          self.view.showLoader()
+      }
+      
+      func hideLoader(){
+          self.view.hideLoader()
+      }
 }

@@ -8,12 +8,16 @@
 
 import Foundation
 
-class SignUpPresenter {
+protocol SignUpViewModelProtocols {
+     func tryToSaveUser(name: String, email: String, password: String,age: String)
+}
     
-    weak var view: SignUpVC!
+class SignUpViewModel {
+    
+    weak var view: SignUpProtocols!
     
     // MARK:- Initialization Methods
-    init(view: SignUpVC) {
+    init(view: SignUpProtocols) {
         self.view = view
     }
     
@@ -30,6 +34,9 @@ class SignUpPresenter {
         }
         return true
     }
+    
+
+
     private func saveUser(name: String, email: String, password: String,age: String){
         self.view.showLoader()
         APIManager.signUp(name: name, email: email, password: password, age: Int(age)!){ (response) in
@@ -43,7 +50,8 @@ class SignUpPresenter {
             self.view.hideLoader()
         }
     }
-    // MARK:- Public Methods
+}
+extension SignUpViewModel: SignUpViewModelProtocols{
     func tryToSaveUser(name: String, email: String, password: String,age: String){
         if self.view.check() == true{
             if validteFields(email: email, password: password){
