@@ -8,17 +8,18 @@
 
 import UIKit
 
+// MARK: - Protocols
 protocol SignUpProtocols: class{
-    
     func showLoader()
     func hideLoader()
     func presentError(massage: String)
-    func go()
+    func switchToMainState()
     func Empty()
-       func check() -> Bool
+    func check() -> Bool
 }
 
 class SignUpVC: UIViewController {
+    
     // MARK:- OutLet methods
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
@@ -27,7 +28,9 @@ class SignUpVC: UIViewController {
     @IBOutlet weak var ageTextField: UITextField!
     @IBOutlet var signUpView: SignUpView!
     
-    var presenter: SignUpViewModel!
+    // MARK: - Properties
+    var viewModel: SignUpViewModel!
+    weak var delegate: AuthNavigationDelegate?
     
     // MARK:- Lifecycle methods
     override func viewDidLoad() {
@@ -37,51 +40,46 @@ class SignUpVC: UIViewController {
         signUpView.setup()
     }
     
-    // MARK:- Methods
-   
-
-    
-     
-   
-    
-  // MARK:- Button methods
+    // MARK:- Button methods
     @IBAction func signUpBtn(_ sender: Any) {
-        presenter.tryToSaveUser(name: userNameTextField.text!, email: emailTextField.text!, password: passTextField.text!, age: ageTextField.text!)
+        viewModel.tryToSaveUser(name: userNameTextField.text!, email: emailTextField.text!, password: passTextField.text!, age: ageTextField.text!)
         
     }
     @IBAction func signInBtn(_ sender: Any) {
-        let su =  SignInVC.create()
-        self.navigationController?.pushViewController(su, animated: true)
+        let signIn =  SignInVC.create()
+        self.navigationController?.pushViewController(signIn, animated: true)
     }
     
     // MARK:- Public Methods
     class func create() -> SignUpVC {
         let signUpVC: SignUpVC = UIViewController.create(storyboardName: Storyboards.authentication,
                                                          identifier: ViewControllers.signUpVC)
-        signUpVC.presenter = SignUpViewModel(view: signUpVC)
+        signUpVC.viewModel = SignUpViewModel(view: signUpVC)
         return signUpVC
     }
 }
-extension SignUpVC: SignUpProtocols{
- 
-   
-    func showLoader() {
-          self.view.showLoader()
-    }
 
-       func hideLoader(){
-           self.view.hideLoader()
-       }
-       func presentError(massage: String){
-           AlertManager.alert(title: "Error", massage: massage, present: self, titleBtn: "OK")
-       }
-    func go(){
-        let todoListVC = TodoListVC.create()
-        let navigationController = UINavigationController(rootViewController: todoListVC)
-        AppDelegate.shared().window?.rootViewController = navigationController
+// MARK: - Implement Protocols
+extension SignUpVC: SignUpProtocols{
+    
+    
+    func showLoader() {
+        self.view.showLoader()
     }
     
-     func check() -> Bool {
+    func hideLoader(){
+        self.view.hideLoader()
+    }
+    
+    func presentError(massage: String){
+        AlertManager.alert(title: "Error", massage: massage, present: self, titleBtn: "OK")
+    }
+    
+    func switchToMainState(){
+        self.delegate?.showMainState()
+    }
+    
+    func check() -> Bool {
         guard  let userName = userNameTextField.text,
             !userName.isEmpty,
             let email = emailTextField.text,!email.isEmpty,
@@ -92,7 +90,7 @@ extension SignUpVC: SignUpProtocols{
     }
     
     
-     func Empty() {
+    func Empty() {
         switch  check() {
         case !userNameTextField.text!.isEmpty:
             AlertManager.alert(title: "Name", massage: "Please write your name", present: self, titleBtn: "Ok")
@@ -105,10 +103,10 @@ extension SignUpVC: SignUpProtocols{
             
         default:
             
-            let s =  SignInVC.create()
-            present(s, animated: true, completion: nil)
+            let signIn =  SignInVC.create()
+            present(signIn, animated: true, completion: nil)
             
         }
     }
-
+    
 }

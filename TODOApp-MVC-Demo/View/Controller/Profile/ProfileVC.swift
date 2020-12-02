@@ -12,13 +12,14 @@ protocol ProfileViewProtocols: class{
     func showLoader()
     func hideLoader()
     func go()
-    func image(img: UIImage)
+    func showImage(img: UIImage)
     func reload()
     func getUser(user: UserData)
     func imageEmpty(charcters: String)
     
 }
 class ProfileVC: UITableViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
+    
     // MARK:- OutLet methods
     @IBOutlet weak var ageLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
@@ -28,21 +29,24 @@ class ProfileVC: UITableViewController,UIImagePickerControllerDelegate,UINavigat
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var imageLabel: UILabel!
     
-    var userD : UserData?
+    // MARK:- Properties
+    var userInfo : UserData?
     let imagePicker = UIImagePickerController()
     var name: UITextField?
     var age: UITextField?
-    var presenter: ProfileViewModelProtocols!
+    var viewModel: ProfileViewModelProtocols!
+    
+    
     // MARK:- Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        // profileView.setup()
-        presenter.getUserData()
+        viewModel.getUserData()
         updateUI()
         
         // Do any additional setup after loading the view.
     }
-    // MARK:- PrivateFunction methods
+    
+    // MARK:- Private Methods
     private func navSetup(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "AddPhotos", style: .done, target: self, action: #selector(addPhoto))
         
@@ -54,7 +58,7 @@ class ProfileVC: UITableViewController,UIImagePickerControllerDelegate,UINavigat
         self.present(self.imagePicker, animated: true, completion: nil)
     }
     
-    
+    // MARK:- Methods
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
@@ -68,6 +72,7 @@ class ProfileVC: UITableViewController,UIImagePickerControllerDelegate,UINavigat
         }
         
     }
+    
     func updateUser(){
         let alertController = UIAlertController(title: "Edit Your Age", message: "", preferredStyle: .alert)
         
@@ -78,7 +83,7 @@ class ProfileVC: UITableViewController,UIImagePickerControllerDelegate,UINavigat
         let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
             
             let ageTF = alertController.textFields![0] as UITextField
-            self.presenter.updateAge(age: ageTF.text!)
+            self.viewModel.updateAge(age: ageTF.text!)
             
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil )
@@ -86,15 +91,11 @@ class ProfileVC: UITableViewController,UIImagePickerControllerDelegate,UINavigat
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
     }
-    
-    
-    
+   
     @objc func addPhoto() {
         selectPhoto()
         
     }
-    
-    
     
     func updateUI(){
         let tabGesture = UITapGestureRecognizer()
@@ -111,18 +112,15 @@ class ProfileVC: UITableViewController,UIImagePickerControllerDelegate,UINavigat
         userImage.addGestureRecognizer(tabGesture)
     }
     
-    
-    
-    
-    
     // MARK:- Public Methods
     class func create() -> ProfileVC {
         let profile: ProfileVC = UIViewController.create(storyboardName: Storyboards.profile, identifier: ViewControllers.Profile)
-        profile.presenter = ProfileViewModel(view: profile) 
+        profile.viewModel = ProfileViewModel(view: profile) 
         return profile
     }
 }
 
+ // MARK: - Implement Protocols
 extension ProfileVC: ProfileViewProtocols{
     
     func imageEmpty(charcters: String){
@@ -137,7 +135,7 @@ extension ProfileVC: ProfileViewProtocols{
         guard ((self.namelabl?.text = user.name) != nil)   else  {return}
         guard ((self.ageLabel?.text = String(user.age)) != nil)   else  {return}
     }
-    func image(img: UIImage) {
+    func showImage(img: UIImage) {
         userImage.image = img
         self.tableView.reloadData()
     }

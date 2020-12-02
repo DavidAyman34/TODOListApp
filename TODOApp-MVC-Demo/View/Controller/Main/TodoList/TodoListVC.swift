@@ -8,48 +8,60 @@
 
 import UIKit
 
+// MARK:- Protocol Methods
 protocol TodoListProtocols: class{
     func showLoader()
     func hideLoader()
     func reload()
-    func event(eventInfo: ToDoEvent)
+    func newTodo(eventInfo: ToDoEvent)
     func eventArr(arrOfTodo: [ToDoEvent])
 }
 
-class TodoListVC: UIViewController, sendEvent, RempveTodo,sendObj {
-    
-    
+class TodoListVC: UIViewController, sendNewEvent, RempveTodo,sendObj {
     
     // MARK:- OutLet methods
     @IBOutlet var todoListView: TodoListView!
     @IBOutlet weak var tableView: UITableView!
-    var eventTodo = [ToDoEvent] ()
-    var presenter: TodoListViewModelProtocols!
+    
+    // MARK:- Properties
+    var ArrOfTodo = [ToDoEvent] ()
+    var viewModel: TodoListViewModelProtocols!
     // MARK:- Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        checkConnection()
         setupTableView()
         navSetup()
         todoListView.setup()
-        //presenter.delegte = self
-        presenter.viewDidLoad()
+        viewModel.viewDidLoad()
     }
     
-    
+    // MARK:-  Methods
     func navSetup(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "profile", style: .done, target: self, action: #selector(proflie))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action:
             #selector(addPost))
-        navigationItem.title = "New Tesk"
+       
+       // navigationItem.title = "New Tesk"
     }
     
-    
+    func checkConnection(){
+        if #available(iOS 12.0, *) {
+            if NetworkManagaer.shared().isConnected == true{
+                 navigationItem.title = "New Tesk"
+            }else{
+              
+                ActivityIndicator.shared.animateActivity(title:   "Waiting for network", view: self.view, navigationItem: navigationItem)
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+
+    }
     
     @objc func proflie() {
-        let pro =  ProfileVC.create()
-        
-        self.navigationController?.pushViewController(pro, animated: true)
+        let profile =  ProfileVC.create()
+        self.navigationController?.pushViewController(profile, animated: true)
     }
     
     @objc func addPost() {
@@ -59,11 +71,10 @@ class TodoListVC: UIViewController, sendEvent, RempveTodo,sendObj {
     }
     
     func didTapRemoveTodo(id: IndexPath) {
-        
         let  alert = UIAlertController(title: "Sorry" , message: "Are You Sure You Want To Delete This TODO?" , preferredStyle: .alert)
         let okAction = UIAlertAction(title:"Yes", style: .default){ (action) in
-            let toDo = self.eventTodo.remove(at: id.row)
-            self.presenter.deleteTaskId(id: toDo.id!)
+            let toDo = self.ArrOfTodo.remove(at: id.row)
+            self.viewModel.deleteTaskId(id: toDo.id!)
             self.tableView.deleteRows(at: [id], with: .fade)
             
             self.tableView.reloadData()
@@ -74,25 +85,23 @@ class TodoListVC: UIViewController, sendEvent, RempveTodo,sendObj {
         
     }
     
-    // MARK:- Protocol Methods
-    
-    
-    
     // MARK:- Public Methods
     class func create() -> TodoListVC {
         let todoListVC: TodoListVC = UIViewController.create(storyboardName: Storyboards.main, identifier: ViewControllers.todoListVC)
-        todoListVC.presenter = TodoListViewModel(view: todoListVC)
+        todoListVC.viewModel = TodoListViewModel(view: todoListVC)
         
         return todoListVC
     }
 }
+
+// MARK: - Implement Protocols
 extension TodoListVC: TodoListProtocols{
     func eventArr(arrOfTodo: [ToDoEvent]) {
-        eventTodo = arrOfTodo
+        ArrOfTodo = arrOfTodo
     }
     
-    func event(eventInfo: ToDoEvent) {
-        eventTodo.append(eventInfo)
+    func newTodo(eventInfo: ToDoEvent) {
+        ArrOfTodo.append(eventInfo)
         tableView.reloadData()
     }
     

@@ -8,69 +8,72 @@
 
 import UIKit
 
-protocol sendEvent {
-    func event (eventInfo: ToDoEvent)
+protocol sendNewEvent {
+    func newTodo(eventInfo: ToDoEvent)
     
 }
 protocol PopViewProtocols: class {
-     func dismissPop()
-     func showLoader()
-     func hideLoader()
-     func presentError(massage: String)
-     func check() -> Bool
+    func dismissPop()
+    func showLoader()
+    func hideLoader()
+    func presentError(massage: String)
+    func check() -> Bool
 }
 class PopViewVC: UIViewController {
     
     // MARK:- OutLet methods
-   
     @IBOutlet weak var descriptionTextField: UITextField!
     @IBOutlet var popView: PopView!
-    var delegate : sendEvent!
+    
+    // MARK:-  Properties
+    var delegate : sendNewEvent!
     var event : ToDoEvent!
-    var presenter: PopViewViewModelProtocols!
+    var viewModel: PopViewViewModelProtocols!
+    
     // MARK:- Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         popView.setup()
         
-        // Do any additional setup after loading the view.
     }
- 
+    
+    // MARK:- Button
     @IBAction func saveBtn(_ sender: UIButton) {
-        presenter.checkToSaveTasks(desc: descriptionTextField.text!)
+        viewModel.checkToSaveTasks(desc: descriptionTextField.text!)
     }
+    
     // MARK:- Public Methods
     class func create() -> PopViewVC {
         let popViewVC: PopViewVC = UIViewController.create(storyboardName: Storyboards.main, identifier: ViewControllers.popView)
-        popViewVC.presenter = PopViewViewModel(view: popViewVC)
+        popViewVC.viewModel = PopViewViewModel(view: popViewVC)
         return popViewVC
     }
 }
-
+// MARK: - Implement Protocols
 extension PopViewVC:PopViewProtocols{
     func check() -> Bool {
-           guard  let description = descriptionTextField.text,
-               !description.isEmpty
-               
-               else {return false}
-           return true
-       }
+        guard  let description = descriptionTextField.text,
+            !description.isEmpty
+            
+            else {return false}
+        return true
+    }
     
     func dismissPop(){
-           let newEvent = ToDoEvent(description: descriptionTextField.text!)
-           delegate?.event(eventInfo: newEvent)
-           dismiss(animated: true, completion: nil)
-       }
+        let newEvent = ToDoEvent(description: descriptionTextField.text!)
+        delegate?.newTodo(eventInfo: newEvent)
+        dismiss(animated: true, completion: nil)
+    }
     
     func presentError(massage: String){
         AlertManager.alert(title: "Error", massage: massage, present: self, titleBtn: "OK")
     }
     
     func showLoader(){
-          self.view.showLoader()
-      }
-      
-      func hideLoader(){
-          self.view.hideLoader()
-      }
+        self.view.showLoader()
+    }
+    
+    func hideLoader(){
+        self.view.hideLoader()
+    }
 }

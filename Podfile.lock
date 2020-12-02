@@ -1,20 +1,24 @@
 PODS:
   - Alamofire (5.2.2)
+  - IQKeyboardManagerSwift (6.5.6)
   - TextFieldEffects (1.6.0)
 
 DEPENDENCIES:
   - Alamofire
+  - IQKeyboardManagerSwift
   - TextFieldEffects
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - IQKeyboardManagerSwift
     - TextFieldEffects
 
 SPEC CHECKSUMS:
   Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
+  IQKeyboardManagerSwift: c7df9d2deb356c04522f5c4b7b6e4ce4d8ed94fe
   TextFieldEffects: 529b8aff706fb40f82c41c780c0777941a893796
 
-PODFILE CHECKSUM: 16fa095c7913f381b13b309fd4f06d6cd8a9a011
+PODFILE CHECKSUM: 99eef52fa20248ce239ed3d52381c89143bc31f6
 
 COCOAPODS: 1.9.3

@@ -13,7 +13,6 @@ class TodoListView: UIView {
     @IBOutlet weak var backImg: UIImageView!
     
     func setup(){
-        
         setupImg(named: "background 2")
     }
     private func setupImg(named: String){

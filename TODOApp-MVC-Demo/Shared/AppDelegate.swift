@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
+protocol AppDelegateProtocol {
+    func getMainWindow() -> UIWindow?
+}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,31 +19,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        if UserDefaultsManager.shared().token != nil {
-            switchToMainState()
+        AppStateManager.shared().start(appDelegate: self)
+        IQKeyboardManager.shared.enable = true
+        if #available(iOS 12.0, *) {
+            NetworkManagaer.shared().startMoniting()
         } else {
-            switchToAuthState()
+            return false
         }
-        
         return true
     }
     
     
-    func switchToMainState() {
-        let todoListVC = TodoListVC.create()
-        let navigationController = UINavigationController(rootViewController: todoListVC)
-        self.window?.rootViewController = navigationController
-    }
-    
-    func switchToAuthState() {
-        let signInVC = SignInVC.create()
-        let navigationController = UINavigationController(rootViewController: signInVC)
-        self.window?.rootViewController = navigationController
-    }
     
 }
-
+extension AppDelegate: AppDelegateProtocol{
+    func getMainWindow() -> UIWindow? {
+        return self.window
+    }
+}
 extension AppDelegate {
     static func shared() -> AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate

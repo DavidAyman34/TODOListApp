@@ -8,12 +8,16 @@
 
 import UIKit
 
+   // MARK:- Protocols
+protocol AuthNavigationDelegate: class {
+    func showMainState()
+}
+
 protocol SignInVCProtocol: class{
-    
     func showLoader()
     func hideLoader()
     func presentError(massage: String)
-    func go()
+    func switchToMainState()
 }
 
 class SignInVC: UIViewController{
@@ -23,61 +27,66 @@ class SignInVC: UIViewController{
     @IBOutlet weak var PassTextField: UITextField!
     @IBOutlet weak var logInBtn: UIButton!
     @IBOutlet var signInView: SignInView!
-    var presenter: SignInViewModelProtocols!
+    
+    // MARK: - Properties
+    var viewModel: SignInViewModelProtocols!
+    weak var delegate: AuthNavigationDelegate?
+    
     // MARK:- Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.isNavigationBarHidden = true
+       setupNev()
         signInView.setUp()
     }
     
     func setupNev(){
-              navigationController?.isNavigationBarHidden = true
-          }
-       
-   
+        navigationController?.isNavigationBarHidden = true
+    }
+    
+    
     // MARK:- Button Methods
     @IBAction func logInBtn(_ sender: Any) {
-        presenter.tryToLogin(email: emailTextField.text ?? "s", password: PassTextField.text ?? "s")
+        viewModel.tryToLogin(email: emailTextField.text ?? "s", password: PassTextField.text ?? "s")
         
     }
     
     @IBAction func signUpBtn(_ sender: Any) {
-        let su =  SignUpVC.create()
+        let signUp =  SignUpVC.create()
         
-        self.navigationController?.pushViewController(su, animated: true)
+        self.navigationController?.pushViewController(signUp, animated: true)
     }
     
     
     // MARK:- Public Methods
     class func create() -> SignInVC {
         let signInVC: SignInVC = UIViewController.create(storyboardName: Storyboards.authentication, identifier: ViewControllers.signInVC)
-        signInVC.presenter = SignInViewModel(view: signInVC) 
+        
+        signInVC.viewModel = SignInViewModel(view: signInVC) 
         return signInVC
     }
     
 }
+
+ // MARK: - Implement Protocols
 extension SignInVC: SignInVCProtocol{
     func showLoader(){
-           self.view.showLoader()
-       }
-       
-       func hideLoader(){
-           self.view.hideLoader()
-       }
+        self.view.showLoader()
+    }
+    
+    func hideLoader(){
+        self.view.hideLoader()
+    }
     
     
-       func presentError(massage: String){
-           AlertManager.alert(title: "Error", massage: massage, present: self, titleBtn: "OK")
-       }
+    func presentError(massage: String){
+        AlertManager.alert(title: "Error", massage: massage, present: self, titleBtn: "OK")
+    }
     
-       func go(){
-           let todoListVC = TodoListVC.create()
-           let navigationController = UINavigationController(rootViewController: todoListVC)
-           AppDelegate.shared().window?.rootViewController = navigationController
-       }
-       
-      
-       
+    func switchToMainState(){
+        self.delegate?.showMainState()
+    }
+    
+    
+    
 }

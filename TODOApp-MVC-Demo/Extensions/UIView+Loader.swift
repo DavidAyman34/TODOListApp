@@ -28,7 +28,7 @@ extension UIView {
         activityIndicator.color = .darkText
         activityIndicator.tintColor = .blue
         activityIndicator.center = self.center
-        activityIndicator.style = .medium
+        activityIndicator.style = .gray
         activityIndicator.tag = 333
         return activityIndicator
     }

@@ -14,7 +14,7 @@ extension ProfileVC {
             updateUser()
         }
         else if indexPath.row == 4 {
-            self.presenter.logOut()
+            self.viewModel.logOut()
         }
     }
     override func numberOfSections(in tableView: UITableView) -> Int {

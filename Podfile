@@ -8,4 +8,5 @@ target 'TODOApp-MVC-Demo' do
   # Pods for TODOApp-MVC-Demo
     pod 'Alamofire'
     pod 'TextFieldEffects'
+    pod 'IQKeyboardManagerSwift'
 end

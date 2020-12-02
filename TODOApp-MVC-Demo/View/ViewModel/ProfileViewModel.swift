@@ -36,7 +36,7 @@ class ProfileViewModel{
                 print(error.localizedDescription)
             } else if let photo = photo {
                 
-                self.view.image(img: photo)
+                self.view.showImage(img: photo)
                 print("done")
                 
                 
