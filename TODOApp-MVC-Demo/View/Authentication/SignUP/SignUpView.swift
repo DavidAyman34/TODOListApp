@@ -10,6 +10,7 @@ import UIKit
 
 class SignUpView: UIView {
     
+    // MARK:- Outlets
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passTextField: UITextField!
@@ -18,6 +19,7 @@ class SignUpView: UIView {
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var backImg: UIImageView!
     
+    // MARK:- Public Methods
     func setup(){
         setupTextField(userNameTextField, placeHolder: "UserName")
         setupTextField(emailTextField, placeHolder: "Email")
@@ -28,6 +30,7 @@ class SignUpView: UIView {
         setupImg(named: "background 2")
     }
     
+    // MARK:- Private Methods
     private func setupTextField(_ textField: UITextField, placeHolder: String, isSceure: Bool = false, isPhone: Bool = false){
         textField.backgroundColor = .clear
         textField.textColor = .black
@@ -38,7 +41,6 @@ class SignUpView: UIView {
             textField.keyboardType = .asciiCapableNumberPad
         }
     }
-    
     private func setupSignUpBtn(){
         signUpBtn.layer.borderColor = #colorLiteral(red: 0.3843137255, green: 0.1215686275, blue: 0.4862745098, alpha: 1)
         signUpBtn.titleLabel?.textColor = .white
@@ -58,6 +60,4 @@ class SignUpView: UIView {
         backImg.contentMode = .scaleAspectFit
         
     }
-    
-    
 }

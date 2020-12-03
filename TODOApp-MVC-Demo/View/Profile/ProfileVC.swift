@@ -115,7 +115,7 @@ class ProfileVC: UITableViewController,UIImagePickerControllerDelegate,UINavigat
     // MARK:- Public Methods
     class func create() -> ProfileVC {
         let profile: ProfileVC = UIViewController.create(storyboardName: Storyboards.profile, identifier: ViewControllers.Profile)
-        profile.viewModel = ProfileViewModel(view: profile) 
+        profile.viewModel = ProfileViewModel(view: profile)
         return profile
     }
 }

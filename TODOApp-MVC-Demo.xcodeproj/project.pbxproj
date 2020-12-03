@@ -167,13 +167,6 @@
 			path = Alert;
 			sourceTree = "<group>";
 		};
-		6F5AA552254A1DBA000BDB29 /* Validation */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Validation;
-			sourceTree = "<group>";
-		};
 		6F7FAECB2577B81400214608 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -251,6 +244,7 @@
 				B76E56A62548A2C900C13D43 /* Extensions */,
 				B76E56A82548A2E400C13D43 /* Model */,
 				B76E56A92548A2EA00C13D43 /* View */,
+				6FF900952565510B00FF598C /* ViewModel */,
 				B76E56A72548A2D300C13D43 /* Resources */,
 				B76E569E2548A24C00C13D43 /* Info.plist */,
 			);
@@ -292,7 +286,6 @@
 			children = (
 				B76E56B22548A57200C13D43 /* Storyboards */,
 				B76E56B32548A58700C13D43 /* Assets */,
-				6F5AA552254A1DBA000BDB29 /* Validation */,
 				6F5AA551254A1D0A000BDB29 /* Alert */,
 			);
 			path = Resources;
@@ -313,20 +306,11 @@
 		B76E56A92548A2EA00C13D43 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B76E56AA2548A2F200C13D43 /* Controller */,
-				6FF900952565510B00FF598C /* ViewModel */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		B76E56AA2548A2F200C13D43 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
 				B76E56BA2548A77900C13D43 /* Authentication */,
 				B76E56BD2548A8CE00C13D43 /* Main */,
 				6FEB0C26254E02690024A221 /* Profile */,
 			);
-			path = Controller;
+			path = View;
 			sourceTree = "<group>";
 		};
 		B76E56AB2548A32D00C13D43 /* Utilities */ = {

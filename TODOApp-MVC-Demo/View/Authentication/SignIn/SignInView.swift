@@ -9,27 +9,29 @@
 import UIKit
 
 class SignInView: UIView {
+    
+    // MARK:- Outets
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var PassTextField: UITextField!
     @IBOutlet weak var logInBtn: UIButton!
     @IBOutlet weak var signUpBtn: UIButton!
     @IBOutlet weak var backImg: UIImageView!
     
+    // MARK:- Public Methods
     func setUp(){
         setupTextField(emailTextField, placeHolder: "Email")
         setupTextField(PassTextField, placeHolder: "Password",isSceure: true)
         setupLoginBtn()
         setupSignUpBtn()
         setupImg(named: "background 2")
-        
     }
     
+    // MARK: - Private Method
     private func setupImg(named: String){
         backImg.image = UIImage(named: named)
         backImg.contentMode = .scaleAspectFit
         
     }
-    
     private func setupTextField(_ textField: UITextField, placeHolder: String, isSceure: Bool = false, isPhone: Bool = false){
         textField.backgroundColor = .clear
         textField.textColor = .black
@@ -40,8 +42,6 @@ class SignInView: UIView {
             textField.keyboardType = .asciiCapableNumberPad
         }
     }
-    //    UIColor(red: 98, green: 31, blue: 124, alpha: 2
-    //    )
     private func setupLoginBtn(){
         logInBtn.layer.borderColor = #colorLiteral(red: 0.3843137255, green: 0.1215686275, blue: 0.4862745098, alpha: 1)
         logInBtn.titleLabel?.textColor = .white
@@ -55,8 +55,4 @@ class SignInView: UIView {
         signUpBtn.setTitle("Create Account", for: .normal)
         signUpBtn.titleLabel?.font = .systemFont(ofSize: 20)
     }
-    
-    
 }
-
-

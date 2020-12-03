@@ -20,7 +20,7 @@ protocol SignUpProtocols: class{
 
 class SignUpVC: UIViewController {
     
-    // MARK:- OutLet methods
+    // MARK:- Outlets
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passTextField: UITextField!
@@ -36,11 +36,10 @@ class SignUpVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
-        // Do any additional setup after loading the view.
         signUpView.setup()
     }
     
-    // MARK:- Button methods
+    // MARK:- Button Methods
     @IBAction func signUpBtn(_ sender: Any) {
         viewModel.tryToSaveUser(name: userNameTextField.text!, email: emailTextField.text!, password: passTextField.text!, age: ageTextField.text!)
         
@@ -52,8 +51,7 @@ class SignUpVC: UIViewController {
     
     // MARK:- Public Methods
     class func create() -> SignUpVC {
-        let signUpVC: SignUpVC = UIViewController.create(storyboardName: Storyboards.authentication,
-                                                         identifier: ViewControllers.signUpVC)
+        let signUpVC: SignUpVC = UIViewController.create(storyboardName: Storyboards.authentication,identifier: ViewControllers.signUpVC)
         signUpVC.viewModel = SignUpViewModel(view: signUpVC)
         return signUpVC
     }
@@ -62,23 +60,18 @@ class SignUpVC: UIViewController {
 // MARK: - Implement Protocols
 extension SignUpVC: SignUpProtocols{
     
-    
     func showLoader() {
         self.view.showLoader()
     }
-    
     func hideLoader(){
         self.view.hideLoader()
     }
-    
     func presentError(massage: String){
         AlertManager.alert(title: "Error", massage: massage, present: self, titleBtn: "OK")
     }
-    
     func switchToMainState(){
         self.delegate?.showMainState()
     }
-    
     func check() -> Bool {
         guard  let userName = userNameTextField.text,
             !userName.isEmpty,
@@ -88,8 +81,6 @@ extension SignUpVC: SignUpProtocols{
             else {return false}
         return true
     }
-    
-    
     func Empty() {
         switch  check() {
         case !userNameTextField.text!.isEmpty:
@@ -102,11 +93,9 @@ extension SignUpVC: SignUpProtocols{
             AlertManager.alert(title: "Age", massage: "Please write Age", present: self, titleBtn: "Ok")
             
         default:
-            
             let signIn =  SignInVC.create()
             present(signIn, animated: true, completion: nil)
             
         }
     }
-    
 }

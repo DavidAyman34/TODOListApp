@@ -15,6 +15,7 @@ protocol SignInViewModelProtocols{
 
 class SignInViewModel{
     
+    // MARK: - Properties
      weak var view: SignInVCProtocol!
     //var vild : valid!
     
@@ -23,7 +24,7 @@ class SignInViewModel{
         self.view = view
     }
     
-    // MARK:- private methods
+    // MARK:- Private Methods
     private func validteFields(email: String?, password: String?) -> Bool{
         if !validator.shared().isValidEmail(email: email){
             self.view.presentError(massage: "Plase Enter an Email")
@@ -53,6 +54,8 @@ class SignInViewModel{
     }
     
 }
+
+// MARK:- SignInViewModelProtocols
 extension SignInViewModel: SignInViewModelProtocols{
     
     func tryToLogin(email: String, password: String){

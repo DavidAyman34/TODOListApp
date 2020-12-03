@@ -19,13 +19,14 @@ protocol TodoListProtocols: class{
 
 class TodoListVC: UIViewController, sendNewEvent, RempveTodo,sendObj {
     
-    // MARK:- OutLet methods
+    // MARK:- OutLet
     @IBOutlet var todoListView: TodoListView!
     @IBOutlet weak var tableView: UITableView!
     
     // MARK:- Properties
     var ArrOfTodo = [ToDoEvent] ()
     var viewModel: TodoListViewModelProtocols!
+    
     // MARK:- Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,8 +42,6 @@ class TodoListVC: UIViewController, sendNewEvent, RempveTodo,sendObj {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "profile", style: .done, target: self, action: #selector(proflie))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action:
             #selector(addPost))
-       
-       // navigationItem.title = "New Tesk"
     }
     
     func checkConnection(){
@@ -50,7 +49,6 @@ class TodoListVC: UIViewController, sendNewEvent, RempveTodo,sendObj {
             if NetworkManagaer.shared().isConnected == true{
                  navigationItem.title = "New Tesk"
             }else{
-              
                 ActivityIndicator.shared.animateActivity(title:   "Waiting for network", view: self.view, navigationItem: navigationItem)
             }
         } else {
