@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Reachability
 // MARK:- Protocol Methods
 protocol TodoListProtocols: class{
     func showLoader()
@@ -15,6 +15,9 @@ protocol TodoListProtocols: class{
     func reload()
     func newTodo(eventInfo: ToDoEvent)
     func eventArr(arrOfTodo: [ToDoEvent])
+    func startIndicator(title: String)
+    func stopIndicator()
+    func presentNetError()
 }
 
 class TodoListVC: UIViewController, sendNewEvent, RempveTodo,sendObj {
@@ -26,15 +29,17 @@ class TodoListVC: UIViewController, sendNewEvent, RempveTodo,sendObj {
     // MARK:- Properties
     var ArrOfTodo = [ToDoEvent] ()
     var viewModel: TodoListViewModelProtocols!
+    let reachability = try! Reachability()
     
     // MARK:- Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkConnection()
+        //checkConnection()
         setupTableView()
         navSetup()
         todoListView.setup()
         viewModel.viewDidLoad()
+        
     }
     
     // MARK:-  Methods
@@ -42,20 +47,9 @@ class TodoListVC: UIViewController, sendNewEvent, RempveTodo,sendObj {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "profile", style: .done, target: self, action: #selector(proflie))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action:
             #selector(addPost))
+        self.navigationItem.title = "New Tesk"
     }
     
-    func checkConnection(){
-        if #available(iOS 12.0, *) {
-            if NetworkManagaer.shared().isConnected == true{
-                 navigationItem.title = "New Tesk"
-            }else{
-                ActivityIndicator.shared.animateActivity(title:   "Waiting for network", view: self.view, navigationItem: navigationItem)
-            }
-        } else {
-            // Fallback on earlier versions
-        }
-
-    }
     
     @objc func proflie() {
         let profile =  ProfileVC.create()
@@ -83,6 +77,26 @@ class TodoListVC: UIViewController, sendNewEvent, RempveTodo,sendObj {
         
     }
     
+    func setupNetAlert(){
+        let alert = UIAlertController(title: "Not Connected",
+                                             message: "Please Turn on Network ",
+                                             preferredStyle: .alert)
+        
+               alert.addAction(UIAlertAction(title: "Open Settings",
+                                             style: UIAlertAction.Style.default,
+                                             handler: openSettings))
+               alert.addAction(UIAlertAction(title: "Cancel",
+                                             style: UIAlertAction.Style.default,
+                                             handler: nil))
+               self.present(alert, animated: true)
+    }
+    
+   private func openSettings(alert: UIAlertAction!) {
+        if let url = URL.init(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
     // MARK:- Public Methods
     class func create() -> TodoListVC {
         let todoListVC: TodoListVC = UIViewController.create(storyboardName: Storyboards.main, identifier: ViewControllers.todoListVC)
@@ -94,6 +108,14 @@ class TodoListVC: UIViewController, sendNewEvent, RempveTodo,sendObj {
 
 // MARK: - Implement Protocols
 extension TodoListVC: TodoListProtocols{
+    func startIndicator(title: String) {
+        ActivityIndicator.shared.animateActivity(title:title, view: self.view, navigationItem:  self.navigationItem)
+    }
+    
+    func stopIndicator() {
+        ActivityIndicator.shared.stopAnimating(navigationItem: self.navigationItem)
+    }
+    
     func eventArr(arrOfTodo: [ToDoEvent]) {
         ArrOfTodo = arrOfTodo
     }
@@ -112,6 +134,10 @@ extension TodoListVC: TodoListProtocols{
     
     func hideLoader(){
         self.view.hideLoader()
+    }
+    func presentNetError(){
+       setupNetAlert()
+        
     }
     
 }

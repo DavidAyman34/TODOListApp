@@ -21,11 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         AppStateManager.shared().start(appDelegate: self)
         IQKeyboardManager.shared.enable = true
-        if #available(iOS 12.0, *) {
-            NetworkManagaer.shared().startMoniting()
-        } else {
-            return false
-        }
+       
         return true
     }
     

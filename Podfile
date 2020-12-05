@@ -9,4 +9,5 @@ target 'TODOApp-MVC-Demo' do
     pod 'Alamofire'
     pod 'TextFieldEffects'
     pod 'IQKeyboardManagerSwift'
+    pod 'ReachabilitySwift'
 end

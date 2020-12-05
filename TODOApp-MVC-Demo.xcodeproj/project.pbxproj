@@ -32,7 +32,6 @@
 		6FF9009225654C7800FF598C /* TodoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF9009125654C7800FF598C /* TodoListViewModel.swift */; };
 		6FF900972565521900FF598C /* PopViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF900962565521900FF598C /* PopViewViewModel.swift */; };
 		6FF9009A2565590A00FF598C /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF900992565590A00FF598C /* ProfileViewModel.swift */; };
-		6FFBBB492577D90C00E78AAB /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FFBBB482577D90C00E78AAB /* NetworkMonitor.swift */; };
 		6FFBBB4B2577E26600E78AAB /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FFBBB4A2577E26600E78AAB /* Loader.swift */; };
 		6FFE2B7F2554306000318FE1 /* Profile+Tableview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FFE2B7E2554306000318FE1 /* Profile+Tableview.swift */; };
 		767FA02330D1EAF4DF5F4A2D /* Pods_TODOApp_MVC_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91F675E6B4DF70681B4B8BD5 /* Pods_TODOApp_MVC_Demo.framework */; };
@@ -79,7 +78,6 @@
 		6FF9009125654C7800FF598C /* TodoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewModel.swift; sourceTree = "<group>"; };
 		6FF900962565521900FF598C /* PopViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopViewViewModel.swift; sourceTree = "<group>"; };
 		6FF900992565590A00FF598C /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
-		6FFBBB482577D90C00E78AAB /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		6FFBBB4A2577E26600E78AAB /* Loader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
 		6FFE2B7E2554306000318FE1 /* Profile+Tableview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Profile+Tableview.swift"; sourceTree = "<group>"; };
 		91F675E6B4DF70681B4B8BD5 /* Pods_TODOApp_MVC_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TODOApp_MVC_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -257,7 +255,6 @@
 				B76E56BE2548AFA000C13D43 /* APIManager+UserAPI.swift */,
 				6FE5795E255734B60030660F /* APIManager+TasksAPI.swift */,
 				6F0FDEE3255AF0BA004B95F8 /* APIRouter.swift */,
-				6FFBBB482577D90C00E78AAB /* NetworkMonitor.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -505,7 +502,6 @@
 				B76E56B52548A63E00C13D43 /* UIViewController+Storyboard.swift in Sources */,
 				6FFBBB4B2577E26600E78AAB /* Loader.swift in Sources */,
 				6FB14CA3255C1FAE00027C9C /* SignInViewModel.swift in Sources */,
-				6FFBBB492577D90C00E78AAB /* NetworkMonitor.swift in Sources */,
 				B76E56C12548B0FD00C13D43 /* LoginResponse.swift in Sources */,
 				B76E56C32548B2B100C13D43 /* Constants.swift in Sources */,
 				6FE5795F255734B60030660F /* APIManager+TasksAPI.swift in Sources */,
