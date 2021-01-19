@@ -10,13 +10,13 @@
 import UIKit
 import Foundation
 struct AlertManager {
+    static let  alertError = UIAlertController()
     
-     static let  alertError = UIAlertController()
     static func alert (title: String,massage: String, present : UIViewController,titleBtn: String){
         let  alertError = UIAlertController(title: title , message: massage , preferredStyle: .alert)
         alertError.addAction(UIAlertAction(title:titleBtn, style: .default, handler: nil))
-
+        
         present.self.present(alertError, animated: true)
     }
-  
+    
 }

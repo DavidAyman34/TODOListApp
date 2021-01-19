@@ -22,7 +22,7 @@ protocol SignInVCProtocol: class{
 
 class SignInVC: UIViewController{
     
-    // MARK:- Outets
+     //MARK:- outlets
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var PassTextField: UITextField!
     @IBOutlet var signInView: SignInView!

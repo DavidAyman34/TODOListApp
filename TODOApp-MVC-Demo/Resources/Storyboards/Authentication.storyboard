@@ -255,16 +255,16 @@
                                     <action selector="logInBtn:" destination="UVw-s0-uMi" eventType="touchUpInside" id="gjj-uo-OjA"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="3sy-Ai-r8F">
-                                <rect key="frame" x="70.5" y="813" width="273.5" height="34"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="3sy-Ai-r8F">
+                                <rect key="frame" x="70" y="813" width="290" height="34"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="lM1-5f-NDQ">
-                                        <rect key="frame" x="0.0" y="0.0" width="199.5" height="34"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="141.5" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                         <color key="textColor" red="0.74901960779999999" green="0.65490196079999996" blue="0.78823529410000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ahs-c8-cIP">
-                                        <rect key="frame" x="209.5" y="0.0" width="64" height="34"/>
+                                        <rect key="frame" x="148.5" y="0.0" width="141.5" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <state key="normal" title="Sign Up">
                                             <color key="titleColor" red="0.41568627450000001" green="0.1176470588" blue="0.50980392159999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -341,7 +341,6 @@
                             <constraint firstItem="EO4-KN-Za6" firstAttribute="top" secondItem="l58-3a-T43" secondAttribute="top" constant="100" id="2da-xh-E9d"/>
                             <constraint firstItem="l58-3a-T43" firstAttribute="bottom" secondItem="JsH-eA-ewq" secondAttribute="bottom" id="3ai-iI-EnQ"/>
                             <constraint firstItem="l58-3a-T43" firstAttribute="leading" secondItem="JsH-eA-ewq" secondAttribute="leading" id="6b5-Jt-CUp"/>
-                            <constraint firstItem="3sy-Ai-r8F" firstAttribute="centerX" secondItem="2kx-jT-1kL" secondAttribute="centerX" id="AI3-aW-72I"/>
                             <constraint firstItem="tTo-bZ-Ges" firstAttribute="top" secondItem="9E0-9D-XyH" secondAttribute="bottom" constant="35" id="Ar2-0N-yQE"/>
                             <constraint firstItem="tTo-bZ-Ges" firstAttribute="centerX" secondItem="2kx-jT-1kL" secondAttribute="centerX" id="Bv1-dD-hpr"/>
                             <constraint firstItem="tTo-bZ-Ges" firstAttribute="leading" secondItem="l58-3a-T43" secondAttribute="leading" constant="100" id="Eez-JV-Zw8"/>
@@ -353,7 +352,9 @@
                             <constraint firstItem="JB9-lZ-Cyn" firstAttribute="leading" secondItem="l58-3a-T43" secondAttribute="leading" constant="10" id="teb-Co-Zy9"/>
                             <constraint firstItem="9E0-9D-XyH" firstAttribute="top" secondItem="EO4-KN-Za6" secondAttribute="bottom" constant="39" id="uZt-g3-n4N"/>
                             <constraint firstItem="EO4-KN-Za6" firstAttribute="centerX" secondItem="2kx-jT-1kL" secondAttribute="centerX" id="vTW-vr-CAe"/>
+                            <constraint firstItem="3sy-Ai-r8F" firstAttribute="leading" secondItem="l58-3a-T43" secondAttribute="leading" constant="70" id="xuH-YQ-Mz0"/>
                             <constraint firstItem="JB9-lZ-Cyn" firstAttribute="top" secondItem="JsH-eA-ewq" secondAttribute="top" constant="197" id="yB8-T7-qRT"/>
+                            <constraint firstItem="3sy-Ai-r8F" firstAttribute="width" secondItem="2kx-jT-1kL" secondAttribute="width" multiplier="0.7" id="yZg-8b-aX1"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="JsH-eA-ewq"/>
                         <connections>

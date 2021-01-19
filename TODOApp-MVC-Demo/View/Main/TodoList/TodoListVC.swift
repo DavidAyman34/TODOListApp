@@ -42,11 +42,12 @@ class TodoListVC: UIViewController, sendNewEvent, RempveTodo,sendObj {
         
     }
     
-    // MARK:-  Methods
+    // MARK:- Methods
     func navSetup(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "profile", style: .done, target: self, action: #selector(proflie))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action:
             #selector(addPost))
+        
         self.navigationItem.title = "New Tesk"
     }
     
